@@ -13,5 +13,6 @@ export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
   { id: 'motor', label: 'Motor & Servis', icon: '👨‍🔧', color: 'bg-teal-500', bg: 'bg-teal-50' },
   { id: 'belanja', label: 'Belanja', icon: '🛒', color: 'bg-purple-500', bg: 'bg-purple-50' },
   { id: 'tagihan', label: 'Tagihan', icon: '⚡', color: 'bg-yellow-500', bg: 'bg-yellow-50' },
+  { id: 'istri', label: 'Transfer ke Istri', icon: '💖', color: 'bg-pink-500', bg: 'bg-pink-50' },
   { id: 'lainnya', label: 'Lainnya', icon: '📦', color: 'bg-gray-500', bg: 'bg-gray-50' }
 ];
