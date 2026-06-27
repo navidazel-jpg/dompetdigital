@@ -480,11 +480,16 @@ export default function App() {
   const handleSaveMainBalance = () => {
     const newAmount = unformatNumber(mainBalanceInput);
     const existingMain = transactions.find(tx => tx.type === 'main');
+    const existingMainAmount = existingMain ? Number(existingMain.amount) : 0;
+    
+    // Hitung saldo awal baru agar saldo akhir (bankBalance) persis sesuai dengan input baru
+    const adjustedAmount = newAmount - (bankBalance - existingMainAmount);
+
     const txData: Transaction = {
       id: existingMain ? existingMain.id : 'main-balance',
       date: existingMain ? existingMain.date : getToday(),
       type: 'main',
-      amount: newAmount,
+      amount: adjustedAmount,
       description: 'Saldo Awal (Rekening)',
       timestamp: existingMain ? existingMain.timestamp : Date.now(),
       email: userEmail,
@@ -508,11 +513,16 @@ export default function App() {
   const handleSaveWalletBalance = () => {
     const newAmount = unformatNumber(walletBalanceInput);
     const existingWalletMain = transactions.find(tx => tx.type === 'wallet-main');
+    const existingWalletMainAmount = existingWalletMain ? Number(existingWalletMain.amount) : 0;
+    
+    // Hitung saldo awal baru agar saldo akhir (walletBalance) persis sesuai dengan input baru
+    const adjustedAmount = newAmount - (walletBalance - existingWalletMainAmount);
+
     const txData: Transaction = {
       id: existingWalletMain ? existingWalletMain.id : 'wallet-main-balance',
       date: existingWalletMain ? existingWalletMain.date : getToday(),
       type: 'wallet-main',
-      amount: newAmount,
+      amount: adjustedAmount,
       description: 'Saldo Awal (Dompet)',
       timestamp: existingWalletMain ? existingWalletMain.timestamp : Date.now(),
       email: userEmail,
