@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo, useEffect, useRef, FormEvent } from 'react';
+import { useState, useMemo, useEffect, useRef, FormEvent, ChangeEvent } from 'react';
 import { 
   PlusCircle, MinusCircle, Edit, Trash2, Wallet, 
   TrendingUp, TrendingDown, FileText, Check, X, Calendar, 
@@ -234,6 +234,24 @@ export default function App() {
   const [motorForm, setMotorForm] = useState({ jenisOli: '', kmAwal: '', kmNambah: '', deskripsiServis: '', amount: '' });
 
   const [editingTx, setEditingTx] = useState<any | null>(null);
+
+  // --- FUNGSI AUTO-FORMAT BENSIN/BBM ---
+  const handleExpenseDescriptionChange = (e: ChangeEvent<HTMLInputElement>, formType: 'expense' | 'expense-bank') => {
+    const val = e.target.value;
+    const lowerVal = val.toLowerCase();
+    
+    if (formType === 'expense') {
+      let currentAmount = expenseForm.amount;
+      if (lowerVal.includes('pertalit')) currentAmount = '10.000';
+      else if (lowerVal.includes('pertamax')) currentAmount = '16.650';
+      setExpenseForm({ ...expenseForm, description: val, amount: currentAmount });
+    } else {
+      let currentAmount = expenseBankForm.amount;
+      if (lowerVal.includes('pertalit')) currentAmount = '10.000';
+      else if (lowerVal.includes('pertamax')) currentAmount = '16.650';
+      setExpenseBankForm({ ...expenseBankForm, description: val, amount: currentAmount });
+    }
+  };
 
   // --- FUNGSI AUTO-FORMAT SATUAN (SMART QTY) ---
   const formatQtyWithUnit = (qtyVal: string, descVal: string) => {
@@ -1577,7 +1595,7 @@ export default function App() {
                               <input 
                                 type="text" 
                                 value={expenseForm.description || ''} 
-                                onChange={(e) => setExpenseForm({ ...expenseForm, description: e.target.value })} 
+                                onChange={(e) => handleExpenseDescriptionChange(e, 'expense')} 
                                 className="w-full p-3.5 rounded-2xl border-2 border-slate-200 focus:border-rose-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white text-base" 
                                 required 
                               />
@@ -1647,7 +1665,7 @@ export default function App() {
                               <input 
                                 type="text" 
                                 value={expenseBankForm.description || ''} 
-                                onChange={(e) => setExpenseBankForm({ ...expenseBankForm, description: e.target.value })} 
+                                onChange={(e) => handleExpenseDescriptionChange(e, 'expense-bank')} 
                                 className="w-full p-3.5 rounded-2xl border-2 border-slate-200 focus:border-amber-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white text-base" 
                                 required 
                               />
